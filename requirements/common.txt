@@ -88,9 +88,9 @@ carrot==0.10.7
 # sha256: 7wE5rDCRO0Po04ij53blNKIvgZdZZpaNKDaewDOKabc
 Unipath==1.0
 
-# Required by django-browserid & responses
-# sha256: uePBDlCStES7TBsLM39X5sPXaArXxRkvWX6E3ZMftZg
-requests==2.4.1
+# Required by django-browserid, newrelic-plugin-agent, WebTest & responses
+# sha256: HwRtz17HEu076GhLnzPJW3bijNHIJdsPXhVXv9h7N0U
+requests==2.5.1
 
 # Required by django-browserid
 # sha256: akF58qKszaKyc7_Ybeb3AkzuIDBDzJp8BA_nswa74SA
