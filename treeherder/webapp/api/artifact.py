@@ -5,8 +5,7 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from treeherder.webapp.api.utils import (UrlQueryFilter, with_artifacts,
-                                         with_jobs,
-                                         oauth_required)
+                                         with_jobs, oauth_required)
 
 
 class ArtifactViewSet(viewsets.ViewSet):
@@ -57,6 +56,8 @@ class ArtifactViewSet(viewsets.ViewSet):
         job_guids = [x['job_guid'] for x in request.DATA]
         job_id_lookup = jm.get_job_ids_by_guid(job_guids)
 
-        am.load_job_artifacts(request.DATA, job_id_lookup)
+        add_bug_suggestions = request.QUERY_PARAMS.get('add_bug_suggestions', False)
+
+        am.load_job_artifacts(request.DATA, job_id_lookup, add_bug_suggestions)
 
         return Response({'message': 'Artifacts stored successfully'})
