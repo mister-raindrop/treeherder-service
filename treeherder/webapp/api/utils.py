@@ -12,7 +12,7 @@ import oauth2 as oauth
 from django.conf import settings
 from rest_framework.response import Response
 
-from treeherder.model.derived import JobsModel
+from treeherder.model.derived import JobsModel, ArtifactsModel
 from treeherder.etl.oauth_utils import OAuthCredentials
 
 
@@ -200,6 +200,23 @@ def with_jobs(model_func):
             return model_func(*args, jm=jm, **kwargs)
 
     return use_jobs_model
+
+
+def with_artifacts(model_func):
+    """
+    Create a ArtifactsModel and pass it to the ``func``.
+
+    ``func`` must take an ArtifactsModel object and return a response object
+
+    """
+    @functools.wraps(model_func)
+    def use_artifacts_model(*args, **kwargs):
+
+        project = kwargs["project"]
+        with ArtifactsModel(project) as am:
+            return model_func(*args, am=am, **kwargs)
+
+    return use_artifacts_model
 
 
 def get_option(obj, option_collections):

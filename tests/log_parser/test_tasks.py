@@ -156,7 +156,7 @@ def test_parse_mozlog_log(jm, initial_data, jobs_with_local_mozlog_log,
     assert len(fails) == 3
 
 
-def test_parse_talos_log(jm, initial_data, jobs_with_local_talos_log, sample_resultset,
+def test_parse_talos_log(jm, am, initial_data, jobs_with_local_talos_log, sample_resultset,
                          mock_send_request, mock_get_remote_content):
     """
     check that performance job_artifacts get inserted when running
@@ -169,7 +169,7 @@ def test_parse_talos_log(jm, initial_data, jobs_with_local_talos_log, sample_res
     jm.store_job_data(jobs)
     jm.process_objects(1, raise_errors=True)
 
-    artifact_list = jm.get_performance_artifact_list(0, 10)
+    artifact_list = am.get_performance_artifact_list(0, 10)
     assert len(artifact_list) >= 1  # should parse out at least one perf artifact
 
 

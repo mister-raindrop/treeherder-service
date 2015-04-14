@@ -147,6 +147,21 @@ def jm(request):
     return model
 
 
+@pytest.fixture(scope='function')
+def am(request):
+    """ Give a test access to an ArtifactsModel instance. """
+    from django.conf import settings
+    from treeherder.model.derived.jobs import ArtifactsModel
+    model = ArtifactsModel(settings.DATABASES["default"]["TEST_NAME"])
+
+    def fin():
+        model.disconnect()
+
+    request.addfinalizer(fin)
+
+    return model
+
+
 def add_test_procs_file(dhub, key, filename):
     """Add an extra procs file in for testing purposes."""
     test_proc_file = os.path.join(

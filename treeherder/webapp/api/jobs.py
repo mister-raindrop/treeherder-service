@@ -8,7 +8,7 @@ from rest_framework.decorators import action
 from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAuthenticated
 
-from treeherder.webapp.api.utils import (UrlQueryFilter, with_jobs,
+from treeherder.webapp.api.utils import (UrlQueryFilter, with_jobs, with_artifacts,
                                          oauth_required, get_option)
 
 
@@ -21,7 +21,8 @@ class JobsViewSet(viewsets.ViewSet):
     throttle_scope = 'jobs'
 
     @with_jobs
-    def retrieve(self, request, project, jm, pk=None):
+    @with_artifacts
+    def retrieve(self, request, project, jm, am, pk=None):
         """
         GET method implementation for detail view
 
@@ -36,7 +37,7 @@ class JobsViewSet(viewsets.ViewSet):
             job["logs"] = jm.get_log_references(pk)
 
             # make artifact ids into uris
-            artifact_refs = jm.get_job_artifact_references(pk)
+            artifact_refs = am.get_job_artifact_references(pk)
             job["artifacts"] = []
             for art in artifact_refs:
                 ref = reverse("artifact-detail",

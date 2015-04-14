@@ -23,7 +23,7 @@ def job_sample():
 
 
 @pytest.fixture
-def sample_artifacts(jm, sample_data):
+def sample_artifacts(jm, am, sample_data):
     """provide 11 jobs with job artifacts."""
 
     jobs = sample_data.job_data[0:10]
@@ -43,7 +43,7 @@ def sample_artifacts(jm, sample_data):
             "data_1"
         ])
 
-    jm.store_job_artifact(artifact_placeholders)
+    am.store_job_artifact(artifact_placeholders)
 
 
 @pytest.fixture

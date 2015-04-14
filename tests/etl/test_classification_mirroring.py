@@ -10,7 +10,7 @@ from django.conf import settings
 from treeherder.etl.classification_mirroring import ElasticsearchDocRequest, BugzillaCommentRequest
 
 
-def test_elasticsearch_doc_request_body(jm, eleven_jobs_processed):
+def test_elasticsearch_doc_request_body(jm, am, eleven_jobs_processed):
     """
     Test the request body is created correctly
     """
@@ -24,7 +24,7 @@ def test_elasticsearch_doc_request_body(jm, eleven_jobs_processed):
         [job_id, "buildapi", "json",
          json.dumps(sample_artifact), job_id, "buildapi"]
     ]
-    jm.store_job_artifact(placeholders)
+    am.store_job_artifact(placeholders)
 
     submit_timestamp = int(time())
     who = "user@mozilla.com"
@@ -52,7 +52,7 @@ def test_elasticsearch_doc_request_body(jm, eleven_jobs_processed):
     assert req.body == expected, diff(expected, req.body)
 
 
-def test_bugzilla_comment_request_body(jm, eleven_jobs_processed):
+def test_bugzilla_comment_request_body(jm, am, eleven_jobs_processed):
     """
     Test the request body is created correctly
     """
@@ -70,7 +70,7 @@ def test_bugzilla_comment_request_body(jm, eleven_jobs_processed):
         job_id, 'Bug suggestions',
     ]
 
-    jm.store_job_artifact([bug_suggestions_placeholders])
+    am.store_job_artifact([bug_suggestions_placeholders])
     req = BugzillaCommentRequest(jm.project, job_id, bug_id, who)
     req.generate_request_body()
 
@@ -88,7 +88,7 @@ def test_bugzilla_comment_request_body(jm, eleven_jobs_processed):
     assert req.body == expected
 
 
-def test_bugzilla_comment_length_capped(jm, eleven_jobs_processed):
+def test_bugzilla_comment_length_capped(jm, am, eleven_jobs_processed):
     """
     Test that the total number of characters in the comment is capped correctly.
     """
@@ -110,7 +110,7 @@ def test_bugzilla_comment_length_capped(jm, eleven_jobs_processed):
         job_id, 'Bug suggestions',
     ]
 
-    jm.store_job_artifact([bug_suggestions_placeholders])
+    am.store_job_artifact([bug_suggestions_placeholders])
     req = BugzillaCommentRequest(jm.project, job_id, bug_id, who)
     req.generate_request_body()
 

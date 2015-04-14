@@ -10,13 +10,13 @@ xfail = pytest.mark.xfail
 
 # we don't have/need an artifact list endpoint.
 
-def test_artifact_detail(webapp, eleven_jobs_processed, sample_artifacts, jm):
+def test_artifact_detail(webapp, eleven_jobs_processed, sample_artifacts, jm, am):
     """
     test retrieving a single job from the jobs-detail
     endpoint.
     """
     job = jm.get_job_list(0, 1)[0]
-    artifact = jm.get_job_artifact_references(job["id"])[0]
+    artifact = am.get_job_artifact_references(job["id"])[0]
 
     resp = webapp.get(
         reverse("artifact-detail",
